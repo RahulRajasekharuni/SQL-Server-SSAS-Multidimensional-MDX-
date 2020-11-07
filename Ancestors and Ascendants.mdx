@@ -1,0 +1,17 @@
+--ancestor takes you to a specified place in the hierarchy
+select ancestor([Dim Date].[Hierarchy].[Month Number Of Year].&[2012]&[12]
+				,[Dim Date].[Hierarchy].[Calendar Year]) 
+on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--dimension
+--hierarchy
+--level
+--members
+--children
+
+--Takes you up all the way to the top
+select ascendants([Dim Date].[Hierarchy].[Month Number Of Year].&[2012]&[12]) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]

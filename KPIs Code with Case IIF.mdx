@@ -1,0 +1,33 @@
+--value
+--goal = Last Year's Value
+--status = Comaparison of last year's value with this year's
+--trend 
+
+with member unitsInValue as
+[Measures].[Units In]
+member UnitsInGoal as
+([Measures].[Units In],ParallelPeriod([Dim Date].[Calendar Year].[Calendar Year],1,[Dim Date].[Calendar Year].currentmember))
+member UnitsinStatusCalc as 
+ (unitsInValue - unitsInGoal) / UnitsInGoal
+ member UnitsinStatus as
+ case when isempty(UnitsInGoal) Then null --isempty checks for null values
+	  when isempty(UnitsInValue) Then null
+	  when UnitsinStatusCalc > .2 then 1
+	  when UnitsinStatusCalc < -.2 then - 1
+	  else 0
+ end
+ /*alternative iif syntax iif(UnitsinStatusCalc>.2,1,
+								iif(UnitsinStatusCalc<-.2,-1,0)*/
+member UnitsInTrend2Y as
+([Measures].[Units In],ParallelPeriod([Dim Date].[Calendar Year].[Calendar Year],2,[Dim Date].[Calendar Year].currentmember))
+member UnitsInTrend as
+case when isempty(UnitsInValue) or isempty(UnitsInGoal) or isempty(UnitsInTrend2y) then null
+	 when UnitsInValue > UnitsInGoal and UnitsInGoal > UnitsInTrend2y then 1
+	 when UnitsInValue < UnitsInGoal and UnitsInGoal < UnitsInTrend2y then -1
+	 else 0
+end
+
+
+select {unitsInTrend2Y,UnitsInGoal,UnitsInValue,UnitsInStatus,UnitsinTrend} on 0,
+non empty [Dim Date].[Calendar Year].[Calendar Year] on 1
+from [Adventure Works DW2019]

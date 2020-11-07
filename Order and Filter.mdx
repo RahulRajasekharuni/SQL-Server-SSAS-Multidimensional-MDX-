@@ -1,0 +1,25 @@
+--order is a function in mdx with asc as default but you can give 3 arguments e.g. desc
+--bdesc or basc breaks hierarchy
+select [Measures].[Units In] on 0,
+order([Dim Date].[Hierarchy].[Month Number Of Year]*[Dim Date].[Calendar Year].[Calendar Year],[Measures].[Units In], basc) on 1
+from [Adventure Works DW2019]
+
+
+--filter function filters result set
+with set MyDates as
+order([Dim Date].[Hierarchy].[Month Number Of Year]*[Dim Date].[Calendar Year].[Calendar Year],[Measures].[Units In], basc)
+
+select [Measures].[Units In] on 0,
+filter(MyDates,[Measures].[Units In]>=1000 and [Measures].[Units In]<=3000) on 1
+from [Adventure Works DW2019]
+
+--filter function filters result set
+with set MyDates as
+order([Dim Date].[Hierarchy].[Month Number Of Year]*[Dim Date].[Calendar Year].[Calendar Year],[Measures].[Units In], basc)
+
+select [Measures].[Units In] on 0,
+filter(MyDates,[Measures].[Units In]>0 and not([Measures].[Units In]>=1000 and [Measures].[Units In]<=3000)) on 1 -- not excludes, in this example values less than 1000  but greater than 0 and greater than 3000
+from [Adventure Works DW2019]
+
+
+

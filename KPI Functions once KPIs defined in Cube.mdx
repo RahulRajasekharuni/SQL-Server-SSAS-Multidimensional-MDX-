@@ -1,0 +1,6 @@
+select {kpivalue("Units In KPI"),
+		kpigoal("Units In KPI"),
+		kpistatus("Units In KPI"),
+		kpitrend("Units In KPI")} on 0,
+non empty ([Dim Product].[Color].[Color],[Dim Date].[Calendar Year].[Calendar Year]) on 1
+from [Adventure Works DW2019]

@@ -1,0 +1,21 @@
+--TOP 10 items in terms of units in
+select [Measures].[Units In] on 0,
+topcount([Dim Product].[English Product Name].[English Product Name],10,[Measures].[Units In] ) on 1
+from [Adventure Works DW2019]
+
+--Top 10% of items in terms of units in
+select [Measures].[Units In] on 0,
+toppercent([Dim Product].[English Product Name].[English Product Name],10,[Measures].[Units In] ) on 1
+from [Adventure Works DW2019]
+
+--bottom 300 items in terms of units in
+select [Measures].[Units In] on 0,
+bottomcount([Dim Product].[English Product Name].[English Product Name],300,[Measures].[Units In] ) on 1
+from [Adventure Works DW2019]
+
+--Bottom 10% of items in terms of units in
+select [Measures].[Units In] on 0,
+bottompercent([Dim Product].[English Product Name].[English Product Name],10,[Measures].[Units In] ) on 1
+from [Adventure Works DW2019]
+
+--ideally use three agruments what you're counting,how many you want how you're counting

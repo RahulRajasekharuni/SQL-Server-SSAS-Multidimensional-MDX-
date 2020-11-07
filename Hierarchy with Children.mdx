@@ -1,0 +1,19 @@
+select [Dim Date].[Hierarchy].[Month Number Of Year].&[2012]&[12].children on 0,
+	   [Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--dimension
+--hierarchy
+--level
+--members
+--children
+
+--goes back to year 2012 then gives data for each month in 2012
+select [Dim Date].[Hierarchy].[Month Number Of Year].&[2012]&[12].parent.children on 0,
+	   [Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--goes back to year 2012 then parent of that which is all years
+select [Dim Date].[Hierarchy].[Month Number Of Year].&[2012]&[12].parent.parent on 0,
+	   [Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]

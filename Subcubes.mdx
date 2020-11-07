@@ -1,0 +1,21 @@
+--subcube takes the original cube and narrows it down just a bit
+select non empty [Dim Date].[Calendar Year].members on 0,
+non empty [Dim Product].[Color].members on 1
+
+	from(select topcount([Dim Product].[English Product Name].[English Product Name].members,10,[Measures].[Units In]) on 0
+	from[Adventure Works DW2019]
+	where [Measures].[Units In]) 
+
+where [Measures].[Units In] --required to show results based on the actual measure you want otherwise default measure will be used
+
+
+--Non visual will show results from the entire original table
+select non empty [Dim Date].[Calendar Year].members on 0,
+non empty [Dim Product].[Color].members on 1
+
+	from
+	non visual(select topcount([Dim Product].[English Product Name].[English Product Name].members,10,[Measures].[Units In]) on 0
+	from[Adventure Works DW2019]
+	where [Measures].[Units In]) 
+
+where [Measures].[Units In]

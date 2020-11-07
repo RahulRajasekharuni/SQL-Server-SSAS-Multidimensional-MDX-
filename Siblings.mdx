@@ -1,0 +1,58 @@
+
+--parent is DEC 2012 that parents children are each day in DEC 2012. Therefore the siblings are each day in 2012  
+select [Dim Date].[Hierarchy].[Date Key].&[20121205].siblings
+				 on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--dimension
+--hierarchy
+--level
+--members
+--children
+
+--shows results for 2012-12-04
+select [Dim Date].[Hierarchy].[Date Key].&[20121205].prevmember on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--shows results for 2012-12-06
+select [Dim Date].[Hierarchy].[Date Key].&[20121205].nextmember on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--shows results for 3 day back
+select [Dim Date].[Hierarchy].[Date Key].&[20121205].lag(3) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--shows results for 3 day forward
+select [Dim Date].[Hierarchy].[Date Key].&[20121205].lead(3) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--last of month
+select [Dim Date].[Hierarchy].[Date Key].&[20121205].lastsibling on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--start of month
+select head([Dim Date].[Hierarchy].[Date Key].&[20121205].siblings,1) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--10 days from start of month
+select head([Dim Date].[Hierarchy].[Date Key].&[20121205].siblings,10) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--10 days from end of month
+select tail([Dim Date].[Hierarchy].[Date Key].&[20121205].siblings,10) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--Returns a child member with the relative same position under a parent member as the specified child member, It returns results for 2012-03-05 instead of 2012-12-05 since you are
+--asking for it use march 2012 as the parent and day 05 is the child 
+select cousin([Dim Date].[Hierarchy].[Date Key].&[20121205],[Dim Date].[Hierarchy].[Month Number Of Year].&[2012]&[3]) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]

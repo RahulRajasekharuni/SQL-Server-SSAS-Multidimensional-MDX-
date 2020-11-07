@@ -1,0 +1,27 @@
+--So how well is one particular current member of an English Product Name doing among all of its siblings if we have Measures dot Units In as the basis of the comparison?
+--how current member has done among its siblings
+with member Ranking as 
+rank([Dim Product].[English Product Name].currentmember,
+	 [Dim Product].[English Product Name].currentmember.siblings,
+	 [Measures].[Units In])
+--using a set top 10 items from 2012 & 2013 in terms of units in
+set MyTopItems2012 as
+topcount([Dim Product].[English Product Name].[English Product Name]
+,10,([Measures].[Units In],[Dim Date].[Hierarchy].[Calendar Year].&[2012]))
+
+set MyTopItems2013 as
+topcount([Dim Product].[English Product Name].[English Product Name]
+,10,([Measures].[Units In],[Dim Date].[Hierarchy].[Calendar Year].&[2013]))
+
+--union shows only 16 rows because some items were top sellers in both 2012 and 2013 where using a set will show 20 rows
+select {[Dim Date].[Hierarchy].[Calendar Year].&[2012],[Dim Date].[Hierarchy].[Calendar Year].&[2013]}  on 0,
+	union(MyTopItems2012, MyTopItems2013) on 1
+from [Adventure Works DW2019]
+where Ranking
+
+
+--dimension
+--hierarchy
+--level
+--members
+--children

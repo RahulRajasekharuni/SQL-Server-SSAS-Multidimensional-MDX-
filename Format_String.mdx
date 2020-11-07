@@ -1,0 +1,17 @@
+
+with set MyDates as
+order([Dim Date].[Hierarchy].[Month Number Of Year]*[Dim Date].[Calendar Year].[Calendar Year],[Measures].[Units In], basc)
+
+--use format_string when declaring a measure to change output
+//General Number, Currency, Fixed, Standard, Percent, Scientific
+//Yes/No, True/False, On/Off
+//some custom example (0.0, '#,##0.000')
+//postive format, negative format, 0 and null example '#,##0;,##0.00;0%;0'
+member MyMeasure as
+[Measures].[Units In], format_string = 'Fixed'
+
+select MyMeasure on 0,
+filter(MyDates,[Measures].[Units In]>0 
+		and [Measures].[Units In]<1000 
+		or [Measures].[Units In]>3000) on 1 
+from [Adventure Works DW2019]

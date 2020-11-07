@@ -1,0 +1,28 @@
+create set [Adventure Works DW2019].[AllBut2013] as
+except([Dim Date].[Calendar Year].members,[Dim Date].[Calendar Year].&[2013])
+
+create set [Adventure Works DW2019].MyColors as
+{[Dim Product].[Color].&[Black],[Dim Product].[Color].&[Yellow],[Dim Product].[Color].&[Blue],[Dim Product].[Color].[(ALL)],[Dim Product].[Color].&[Red],
+[Dim Product].[Color].&[NA],[Dim Product].[Color].&[Multi]}
+
+--hierarchize respects the hierachry in terms of the result set
+select non empty AllBut2013 on 0,
+non empty hierarchize(MyColors) on 1
+
+	from
+	non visual(select topcount([Dim Product].[English Product Name].[English Product Name].members,10,[Measures].[Units In]) on 0
+	from[Adventure Works DW2019]
+	where [Measures].[Units In]) 
+
+where [Measures].[Units In]
+
+--hierarchize post shows results in reverse order from child to parent
+select non empty AllBut2013 on 0,
+non empty hierarchize(MyColors,post) on 1
+
+	from
+	non visual(select topcount([Dim Product].[English Product Name].[English Product Name].members,10,[Measures].[Units In]) on 0
+	from[Adventure Works DW2019]
+	where [Measures].[Units In]) 
+
+where [Measures].[Units In]

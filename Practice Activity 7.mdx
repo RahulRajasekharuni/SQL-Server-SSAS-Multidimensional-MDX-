@@ -1,0 +1,16 @@
+with member OrderQuantityYTD as
+sum(ytd([Due Date].[Hierarchy].[Date Key].&[20121205]),[Measures].[Order Quantity])
+
+member OrderQuantityLYTD as 
+	sum(ytd(parallelperiod([Due Date].[Hierarchy].[Calendar Year],1,[Due Date].[Hierarchy].[Date Key].&[20121205])),[Measures].[Order Quantity])
+
+select {OrderQuantityYTD, OrderQuantityLYTD} on 0
+from [Adventure Works DW2019]
+
+with member OrderQuantityLast30Days as
+sum(Lastperiods(30,[Due Date].[Hierarchy].[Date Key].&[20121205]),[Measures].[Order Quantity])
+
+
+select OrderQuantityLast30Days on 0
+from [Adventure Works DW2019]
+

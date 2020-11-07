@@ -1,0 +1,45 @@
+create member [Adventure Works DW2019].[ranking1] as
+rank([Dim Reseller].[English Country Region Name].currentmember,
+	 [Dim Reseller].[English Country Region Name].currentmember.siblings,
+	 [Measures].[Order Quantity])
+
+ 
+
+--1
+select [Measures].[Order Quantity] on 0,
+	   topcount([Dim Reseller].[English Country Region Name].[English Country Region Name],3, [Measures].[Order Quantity]) on 1
+from [Adventure Works DW2019]
+
+--2
+select [Due Date].[Hierarchy].[Calendar Year] on 0,
+[Dim Reseller].[English Country Region Name].[English Country Region Name] on 1
+from [Adventure Works DW2019]
+where Ranking1
+
+--3
+Create set  [Adventure Works DW2019].[Top4EngCountryRegion2011] as
+ topcount([Dim Reseller].[English Country Region Name].[English Country Region Name],4,([Measures].[Order Quantity],[Due Date].[Hierarchy].[Calendar Year].&[2011]))
+
+set [Adventure Works DW2019].[Top4EngCountryRegion2012] as
+ topcount([Dim Reseller].[English Country Region Name].[English Country Region Name],4,([Measures].[Order Quantity],[Due Date].[Hierarchy].[Calendar Year].&[2012]))
+
+ --4
+select {[Due Date].[Hierarchy].[Calendar Year].&[2011],[Due Date].[Hierarchy].[Calendar Year].&[2012]} on 0,
+		{Top4EngCountryRegion2011,Top4EngCountryRegion2012} on 1
+from [Adventure Works DW2019]
+where ranking1
+
+select {[Due Date].[Hierarchy].[Calendar Year].&[2011],[Due Date].[Hierarchy].[Calendar Year].&[2012]} on 0,
+		Union(Top4EngCountryRegion2011,Top4EngCountryRegion2012) on 1
+from [Adventure Works DW2019]
+Where Ranking1
+
+select {[Due Date].[Hierarchy].[Calendar Year].&[2011],[Due Date].[Hierarchy].[Calendar Year].&[2012]} on 0,
+		intersect(Top4EngCountryRegion2011,Top4EngCountryRegion2012) on 1
+from [Adventure Works DW2019]
+Where Ranking1
+
+select {[Due Date].[Hierarchy].[Calendar Year].&[2012],[Due Date].[Hierarchy].[Calendar Year].&[2011]} on 0,
+		except(Top4EngCountryRegion2012,Top4EngCountryRegion2011) on 1
+from [Adventure Works DW2019]
+Where Ranking1

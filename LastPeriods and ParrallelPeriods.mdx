@@ -1,0 +1,39 @@
+--create a member to aggreate units in for 2012 using ytd function
+with member TotalToDate as
+aggregate(lastperiods(7,[Dim Date].[Hierarchy].[Date Key].&[20121205]),[Measures].[Units In])
+
+
+select TotalToDate on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+
+--show all results from current day to 6 days prior and use minus sign for current day and next 6 days
+select lastperiods(7,[Dim Date].[Hierarchy].[Date Key].&[20121205]) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+where [Measures].[Units In]
+
+--show results for one year ago december 5th
+select parallelperiod([Dim Date].[Hierarchy].[Calendar Year],1,[Dim Date].[Hierarchy].[Date Key].&[20121205]) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+where [Measures].[Units In]
+
+--show results for one month ago december 5th
+select parallelperiod([Dim Date].[Hierarchy].[Month Number Of Year],1,[Dim Date].[Hierarchy].[Date Key].&[20121205]) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+where [Measures].[Units In]
+
+
+--using calculated members to show sum for ytd and last ytd
+with member YTDThisYear as
+	sum(ytd([Dim Date].[Hierarchy].[Date Key].&[20120605]),[Measures].[Units In])
+	
+	member YTDLastYear as
+	sum(ytd(parallelperiod([Dim Date].[Hierarchy].[Calendar Year],1,[Dim Date].[Hierarchy].[Date Key].&[20120605])),[Measures].[Units In])
+
+select {YTDThisYear,YTDLastYear} on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]

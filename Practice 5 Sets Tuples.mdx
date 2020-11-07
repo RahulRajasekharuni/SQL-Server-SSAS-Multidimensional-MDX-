@@ -1,0 +1,9 @@
+select [Measures].[Total Product Cost] on 0,
+	non empty {[Dim Reseller].[English Country Region Name].&[Canada],[Dim Reseller].[English Country Region Name].&[Germany]}*[Due Date].[Calendar Year].[Calendar Year] *[Due Date].[Month Number Of Year].[Month Number Of Year] on 1
+from[Adventure Works DW2019]
+
+go
+
+select [Measures].[Total Product Cost] on 0,
+	non empty [Due Date].[Calendar Year].[Calendar Year] *[Due Date].[Month Number Of Year].[Month Number Of Year] on 1
+from[Adventure Works DW2019]

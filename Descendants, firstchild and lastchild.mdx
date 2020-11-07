@@ -1,0 +1,22 @@
+--shows children if used at member level
+select descendants([Dim Date].[Hierarchy].[Month Number Of Year].&[2012]&[12]
+				,2) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+--dimension
+--hierarchy
+--level
+--members
+--children
+
+select descendants([Dim Date].[Hierarchy].[Month Number Of Year].&[2012]&[12]
+				,[Dim Date].[Hierarchy].[Date Key]) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]
+
+
+--shows all levels down when only one argument specified
+select descendants([Dim Date].[Hierarchy].[Calendar Year].&[2012]) on 0,
+[Dim Product].[Color].[Color].members on 1
+from [Adventure Works DW2019]

@@ -1,0 +1,28 @@
+SELECT [Due Date].[Hierarchy].[Month Number Of Year].&[11]&[2012] on 0
+from [Adventure Works DW2019]
+
+--1
+SELECT [Due Date].[Calendar Year].&[2012] on 0
+from [Adventure Works DW2019]
+--2
+SELECT[Due Date].[Hierarchy].[Calendar Year].&[2012].children on 0
+from [Adventure Works DW2019]
+--3
+SELECT head([Due Date].[Hierarchy].[Month Number Of Year].&[11]&[2012].children,1) on 0
+from [Adventure Works DW2019]
+--4
+SELECT [Due Date].[Hierarchy].[Month Number Of Year].&[11]&[2012].children on 0
+from [Adventure Works DW2019]
+--5
+SELECT [Due Date].[Hierarchy].[Month Number Of Year].&[11]&[2012].lag(1) on 0
+from [Adventure Works DW2019]
+--6
+SELECT [Due Date].[Hierarchy].[Month Number Of Year].&[11]&[2012].lead(1) on 0
+from [Adventure Works DW2019]
+--7
+SELECT cousin([Due Date].[Hierarchy].[Month Number Of Year].&[11]&[2012],[Due Date].[Hierarchy].[Calendar Year].&[2011]) on 0
+from [Adventure Works DW2019]
+
+--9
+SELECT ascendants([Due Date].[Hierarchy].[Month Number Of Year].&[11]&[2012]) on 0
+from [Adventure Works DW2019]
